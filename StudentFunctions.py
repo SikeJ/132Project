@@ -1,5 +1,5 @@
 def student1 ():
-    pass
+    name= "Hello"
 
 def student2 ():
     pass
