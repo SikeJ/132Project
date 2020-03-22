@@ -5,7 +5,7 @@ def student2 ():
     print "Big Skrimp"
 
 def student3 ():
-    pass
+    print("CoronaPos")
 
 
 student1()
