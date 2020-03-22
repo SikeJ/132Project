@@ -2,7 +2,7 @@ def student1 ():
     name= "Hello"
 
 def student2 ():
-    pass
+    print "Big Skrimp"
 
 def student3 ():
     pass
