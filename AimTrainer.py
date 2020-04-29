@@ -49,7 +49,7 @@ class setupInputs(object):
 class Graphics(canvas):
     # Set up the GUI with pygame? or tkinter
     # Use inputs from calculations to move the red dot around the screen based on values
-    print "Messing with Keith"
+    print "Messing with Keith part 2"
     print "Jackson's class"
     pass
 
