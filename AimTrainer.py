@@ -26,6 +26,7 @@ class setupInputs(object):
 
     mcp = MCP.MCP3008(spi, cs)
 
+    #making this a function
     r1 = AnalogIn(mcp, MCP.P0)
     r2 = AnalogIn(mcp, MCP.P1)
     r3 = AnalogIn(mcp, MCP.P2)
@@ -36,6 +37,8 @@ class setupInputs(object):
     r8 = AnalogIn(mcp, MCP.P7)
 
     Array = [r1, r2, r3, r4, r5, r6, r7, r8]
+
+    #setpoint needs to be its own function
     Setpoint = sum(Array / 8)
 
     # Array diagram
