@@ -57,6 +57,11 @@ class Graphics(canvas):
 class Calculations(object):
     # Use values measured from the photoresistors and setpoint to calculate where the lazer is
     print "Keith's class"
+     for i in Array:
+        if i >= 35000:
+            return i
+
+    # find highest one, then compare surrounding
     pass
 
 
