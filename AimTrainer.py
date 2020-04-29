@@ -45,3 +45,7 @@ class Calculations(object):
     pass
 
 
+
+
+
+#  for inputs a while True loop that is started and stopped by
