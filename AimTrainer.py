@@ -20,27 +20,68 @@ class setupInputs(object):
     GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+    # This is a class that creates each Photoresistor as an object. Each photoresistor
+    # has a placement and a value. The placement is "topright, topmid, etc..."
+    class Photoresistors(object):
+        def __init__(self, placement, value = 0):
+            self.placement = ""
+            self.value = value
+
+    # These just setup inputs and outputs for the Pi to communicate with the MCP3008 chip.
     spi = busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI)
 
     cs = digitalio.DigitalInOut(board.D5)
 
     mcp = MCP.MCP3008(spi, cs)
+    
+    # These give each channel from the MCP3008 a variable. "pr" = Photoresistor
+    pr1 = AnalogIn(mcp, MCP.P0)
+    pr2 = AnalogIn(mcp, MCP.P1)
+    pr3 = AnalogIn(mcp, MCP.P2)
+    pr4 = AnalogIn(mcp, MCP.P3)
+    pr5 = AnalogIn(mcp, MCP.P4)
+    pr6 = AnalogIn(mcp, MCP.P5)
+    pr7 = AnalogIn(mcp, MCP.P6)
+    pr8 = AnalogIn(mcp, MCP.P7)
 
-    #making this a function
-    r1 = AnalogIn(mcp, MCP.P0)
-    r2 = AnalogIn(mcp, MCP.P1)
-    r3 = AnalogIn(mcp, MCP.P2)
-    r4 = AnalogIn(mcp, MCP.P3)
-    r5 = AnalogIn(mcp, MCP.P4)
-    r6 = AnalogIn(mcp, MCP.P5)
-    r7 = AnalogIn(mcp, MCP.P6)
-    r8 = AnalogIn(mcp, MCP.P7)
+    # These create each Photoresistor object using the Photoresistors class. The names
+    # designate where each sits on the physical array.
+    topleft = Photoresistors("topleft")
+    topmid = Photoresistors("topmid")
+    topright = Photoresistors("topright")
+    midleft = Photoresistors("midleft")
+    bullseye = Photoresistors("bullseye")
+    midright = Photoresistors("midright")
+    btmleft = Photoresistors("btmleft")
+    btmmid = Photoresistors("btmmid")
 
-    Array = [r1, r2, r3, r4, r5, r6, r7, r8]
+    # Creates the array with all Photoresistor objects. 
+    Array = [topleft, topmid, topright, midleft, bullseye, midright, btmleft, btmmid]
 
-    #setpoint needs to be its own function
-    Setpoint = sum(Array / 8)
+    while True:
+        # These continuously update each Photoresistor object their light value from the array
+        # in an infinite loop.
+        topleft.value = pr1.value
+        topmid.value = pr2.value
+        topright.value = pr3.value
+        midleft.value = pr4.value
+        bullseye.value = pr5.value
+        midright.value = pr6.value
+        btmleft.value = pr7.value
+        btmmid.value = pr8.value
 
+        # Just print statements for each for Tyler's testing purposes. 
+        print('Pin 1: ', topleft.value)
+        print('Pin 2: ', topmid.value)
+        print('Pin 3: ', topright.value)
+        print('Pin 4: ', midleft.value)
+        print('Pin 5: ', bullseye.value)
+        print('Pin 6: ', midright.value)
+        print('Pin 7: ', btmleft.value)
+        print('Pin 8: ', btmmid.value)
+        sleep(1)
+
+<<<<<<< HEAD
     # Array diagram             # r5 = bullseye, s's are spaces between PRs
     #  r1--s1--r2--s2--r3
     #  -----------------
@@ -52,6 +93,13 @@ class setupInputs(object):
     #  -----------------
     #  r7--s14-r8--s14--
     
+=======
+    # Array diagram
+    #  pr1----pr2----pr3
+    #  pr4----pr5----pr6   pr5 = bullseye
+    #  p7-----pr8-------
+
+>>>>>>> 40a91e9f4f964820bd5a20bf9f7e7e741f89e2de
 class Graphics(canvas):
     # Set up the GUI with pygame? or tkinter
     # Use inputs from calculations to move the red dot around the screen based on values
@@ -62,6 +110,7 @@ class Graphics(canvas):
 
 class Calculations(object):
     # Use values measured from the photoresistors and setpoint to calculate where the lazer is
+<<<<<<< HEAD
     tl = r1
     tm = r2
     tr = r3
@@ -84,6 +133,9 @@ class Calculations(object):
     Array.sort()
     closest_PR = Array[-1]
     2closest_PR = Array[-2]
+=======
+    print "Keith's class"
+>>>>>>> 40a91e9f4f964820bd5a20bf9f7e7e741f89e2de
 
     if (closest_PR >= 1000):
         hit = Array[-1]
