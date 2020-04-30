@@ -81,7 +81,7 @@ class setupInputs(object):
         print('Pin 8: ', btmmid.value)
         sleep(1)
 
-<<<<<<< HEAD
+
     # Array diagram             # r5 = bullseye, s's are spaces between PRs
     #  r1--s1--r2--s2--r3
     #  -----------------
@@ -93,13 +93,13 @@ class setupInputs(object):
     #  -----------------
     #  r7--s14-r8--s14--
     
-=======
+
     # Array diagram
     #  pr1----pr2----pr3
     #  pr4----pr5----pr6   pr5 = bullseye
     #  p7-----pr8-------
 
->>>>>>> 40a91e9f4f964820bd5a20bf9f7e7e741f89e2de
+
 class Graphics(canvas):
     # Set up the GUI with pygame? or tkinter
     # Use inputs from calculations to move the red dot around the screen based on values
@@ -110,7 +110,7 @@ class Graphics(canvas):
 
 class Calculations(object):
     # Use values measured from the photoresistors and setpoint to calculate where the lazer is
-<<<<<<< HEAD
+
     tl = r1
     tm = r2
     tr = r3
@@ -133,9 +133,9 @@ class Calculations(object):
     Array.sort()
     closest_PR = Array[-1]
     2closest_PR = Array[-2]
-=======
+
     print "Keith's class"
->>>>>>> 40a91e9f4f964820bd5a20bf9f7e7e741f89e2de
+
 
     if (closest_PR >= 1000):
         hit = Array[-1]
