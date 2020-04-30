@@ -1,4 +1,4 @@
-import Tkinter as tk
+import tkinter as tk
 import RPi.GPIO as GPIO
 from pygame import *
 import time
@@ -9,25 +9,14 @@ import adafruit_mcp3xxx.mcp3008 as MCP
 from adafruit_mcp3xxx.analog_in import AnalogIn
 from time import sleep
 
-# Remember to use Python 3, specifically 3.5.5 but I"m sure any 3 will work.
+# Remember to use Python 3, specifically 3.5.3 but I"m sure any 3 will work.
 # MCP3008 Library https://learn.adafruit.com/raspberry-pi-analog-to-digital-converters/mcp3008
-
-
 
 # This is a class that creates each Photoresistor as an object. Each photoresistor
 # has a placement and a value. The placement is "topright, topmid, etc..."
 class Photoresistors(object):
     def __init__(self, value = 0):
         self.value = value
-
-
-# Set up the GPIO pins for each photoresistor, and the two buttons that control the lazer
-# Measure the average value of each photoresistor and set that as a set point
-print ("Tyler's class")
-GPIO.setmode(GPIO.BOARD) 
-GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
 
 # These just setup inputs and outputs for the Pi to communicate with the MCP3008 chip.
 spi = busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI)
@@ -45,8 +34,6 @@ pr5 = AnalogIn(mcp, MCP.P4)
 pr6 = AnalogIn(mcp, MCP.P5)
 pr7 = AnalogIn(mcp, MCP.P6)
 pr8 = AnalogIn(mcp, MCP.P7)
-
-
 
 #create a function that reads the values at each photoresistor
 def Reading():
@@ -68,7 +55,7 @@ def Reading():
         print('Pin 3: ', topright)
         print('Pin 4: ', midleft)
         print('Pin 5: ', bullseye)
-        print('Pin 6: ', midrighte)
+        print('Pin 6: ', midright)
         print('Pin 7: ', btmleft)
         print('Pin 8: ', btmmid)
         sleep(1)
@@ -76,7 +63,7 @@ def Reading():
         # Creates the array with all Photoresistor objects. 
         Array = [topleft, topmid, topright, midleft, bullseye, midright, btmleft, btmmid]
 
-        return Array
+    return Array
 
 
 # Array diagram
@@ -100,7 +87,7 @@ try:
     array = Reading()
 
 except KeyboardInterrupt:
-    print array
+    print(array)
     GPIO.cleanup()
 
 
