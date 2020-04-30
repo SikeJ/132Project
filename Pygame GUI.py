@@ -13,8 +13,8 @@ print pos3
 print pos4
 
 #globally sets the window and ball size and number of balls
-SCREEN_WIDTH = 700
-SCREEN_HEIGHT = 500
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 480
 BALL_SIZE = 5
 NUMBER = 100
 
@@ -22,17 +22,18 @@ NUMBER = 100
 #globally sets the colors to be used inside of the pygame window
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-RED = (255, 0, 0)
+RED = (255, 0, 255)
 
 
 
 class Pointer(object):
 
-    def __init__(self, x=0, y=0, dx=0, dy=0):
+    def __init__(self, x= SCREEN_WIDTH/2, y= SCREEN_HEIGHT/2, dx=0, dy=0):
         self.x = x
         self.y = y
         self.dx = dx
         self.dy = dy
+
 
 
 
@@ -83,11 +84,32 @@ clock = pygame.time.Clock()
 
 done = False
 
+pos = Pointer()
+i=0
 while not done:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+    
+    position = pos1[i]
+    if position > len(pos1):
+        i = 0
+    pos.x += position
+    pos.y -= position
+
+    print position
+    print pos.x
+    print pos.y
+    i += 1
+    screen.fill(WHITE)
+
+    screen.blit(bg, [0,0])
+
+
+    pygame.draw.circle(screen, RED, [pos.x,pos.y], 20)
+
+    
 
 
 
@@ -101,10 +123,7 @@ while not done:
 
     #makes the screen white, and draws the background picture,
     #then the picture of the pointer ontop of the background pic
-    screen.fill(WHITE)
-
-    screen.blit(bg, [0,0])
-
+    
     clock.tick(60)
     pygame.display.flip()   
 

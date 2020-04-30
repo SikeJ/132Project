@@ -33,7 +33,7 @@ class setupInputs(object):
     cs = digitalio.DigitalInOut(board.D5)
 
     mcp = MCP.MCP3008(spi, cs)
-
+    
     # These give each channel from the MCP3008 a variable. "pr" = Photoresistor
     pr1 = AnalogIn(mcp, MCP.P0)
     pr2 = AnalogIn(mcp, MCP.P1)
@@ -59,9 +59,9 @@ class setupInputs(object):
     Array = [topleft, topmid, topright, midleft, bullseye, midright, btmleft, btmmid]
 
     while True:
-        # These assign each Photoresistor object their actual light value from the array
-        # in a for loop.
-        topleft.value = pr1
+        # These continuously update each Photoresistor object their light value from the array
+        # in an infinite loop.
+        topleft.value = pr1.value
         topmid.value = pr2.value
         topright.value = pr3.value
         midleft.value = pr4.value
@@ -80,7 +80,12 @@ class setupInputs(object):
         print('Pin 7: ', btmleft.value)
         print('Pin 8: ', btmmid.value)
         sleep(1)
-    
+
+    # Array diagram
+    #  pr1----pr2----pr3
+    #  pr4----pr5----pr6   pr5 = bullseye
+    #  p7-----pr8-------
+
 class Graphics(canvas):
     # Set up the GUI with pygame? or tkinter
     # Use inputs from calculations to move the red dot around the screen based on values
@@ -92,9 +97,6 @@ class Graphics(canvas):
 class Calculations(object):
     # Use values measured from the photoresistors and setpoint to calculate where the lazer is
     print "Keith's class"
-    for i in Array:
-        if i >= 35000:
-            return i
 
     # find highest one, then compare surrounding
     pass
