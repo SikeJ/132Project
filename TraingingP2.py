@@ -17,8 +17,7 @@ from time import sleep
 # This is a class that creates each Photoresistor as an object. Each photoresistor
 # has a placement and a value. The placement is "topright, topmid, etc..."
 class Photoresistors(object):
-    def __init__(self, placement, value = 0):
-        self.placement = ""
+    def __init__(self, value = 0):
         self.value = value
 
 
@@ -54,24 +53,24 @@ def Reading():
     while True:
         # These continuously update each Photoresistor object their light value from the array
         # in an infinite loop.
-        topleft.value = pr1.value
-        topmid.value = pr2.value
-        topright.value = pr3.value
-        midleft.value = pr4.value
-        bullseye.value = pr5.value
-        midright.value = pr6.value
-        btmleft.value = pr7.value
-        btmmid.value = pr8.value
+        topleft = pr1.value
+        topmid = pr2.value
+        topright = pr3.value
+        midleft = pr4.value
+        bullseye = pr5.value
+        midright = pr6.value
+        btmleft = pr7.value
+        btmmid = pr8.value
 
         # Just print statements for each for Tyler's testing purposes. 
-        print('Pin 1: ', topleft.value)
-        print('Pin 2: ', topmid.value)
-        print('Pin 3: ', topright.value)
-        print('Pin 4: ', midleft.value)
-        print('Pin 5: ', bullseye.value)
-        print('Pin 6: ', midright.value)
-        print('Pin 7: ', btmleft.value)
-        print('Pin 8: ', btmmid.value)
+        print('Pin 1: ', topleft)
+        print('Pin 2: ', topmid)
+        print('Pin 3: ', topright)
+        print('Pin 4: ', midleft)
+        print('Pin 5: ', bullseye)
+        print('Pin 6: ', midrighte)
+        print('Pin 7: ', btmleft)
+        print('Pin 8: ', btmmid)
         sleep(1)
 
         # Creates the array with all Photoresistor objects. 
