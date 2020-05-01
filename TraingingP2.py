@@ -52,7 +52,8 @@ pr8 = AnalogIn(mcp, MCP.P7)
 def Reading():
 
     lists = []
-    while True:
+    done = False
+    while not done:
 
         #empty list
         
@@ -93,6 +94,7 @@ def Reading():
                     i += 1
 
                 Array = lists
+                done = True
                 break
                     
             
