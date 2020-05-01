@@ -28,6 +28,79 @@ class Photoresistors(object):
 ##GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 ##GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+#globally sets the colors to be used inside of the pygame window
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 255)
+YELLOW = (255, 255, 0)
+
+BUTTON = (165, 234, 45)
+
+#sets starting coords for the lazer pointer
+START_X = (SCREEN_WIDTH - 200) / 2
+START_Y = (SCREEN_HEIGHT) / 2
+
+class Pointer(object):
+
+    def __init__(self, x= 0, y= 0, dx=0, dy=0):
+        self.x = x
+        self.y = y
+        self.dx = dx
+        self.dy = dy
+
+
+
+
+    #acessors and mutators
+    @property
+    def x (self):
+        return self._x
+
+    @x.setter
+    def x (self, x):
+        self._x = x
+
+    @property
+    def y (self):
+        return self._y
+
+    @y.setter
+    def y (self, y):
+        self._y = y
+
+    @property
+    def dx (self):
+        return self._dx
+
+    @dx.setter
+    def dx (self, dx):
+        self._dx = dx
+
+    @property
+    def dy (self):
+        return self._dy
+
+    @dy.setter
+    def dy (self, dy):
+        self._dy = dy
+
+
+pygame.init()
+
+#sets up screen
+size = [SCREEN_WIDTH, SCREEN_HEIGHT]
+screen = pygame.display.set_mode(size)
+pygame.display.set_caption("Aim Trainer")
+bg = pygame.image.load("TargetPractice.gif")
+
+#sets the screen refresh rate time
+clock = pygame.time.Clock()
+
+
+
+pos = Pointer(START_X, START_Y)
+
+
 
 # These just setup inputs and outputs for the Pi to communicate with the MCP3008 chip.
 spi = busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI)
@@ -154,8 +227,75 @@ def Calculations(Array):
         coords.append([x, y])
     return coords
 
+
+
 def GUI(Coords):
-    pass
+    done = False
+    while not done:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+        
+        if pos.x == point.x and pos.y == point.y:
+            done = True
+
+        if pos.x - point.x == 0:
+            pos.dx = 0
+        
+        elif pos.x - point.x > 0:
+            pos.dx = -1
+
+            if pos.y - point.y == 0:
+                pos.dy = 0
+            
+            elif pos.y - point.y > 0:
+                pos.dy = -1
+
+            elif pos.y - point.y < 0:
+                pos.dy = 1
+            
+
+        elif pos.x - point.x < 0:
+            pos.dx = 1
+
+            if pos.y - point.y == 0:
+                pos.dy = 0
+
+            if pos.y - point.y > 0:
+                pos.dy = -1
+
+            elif pos.y - point.y < 0:
+                pos.dy = 1
+
+        pos.x += pos.dx
+        pos.y += pos.dy
+
+        
+
+
+        screen.fill(WHITE)
+
+        screen.blit(bg, [0,0])
+
+
+        pygame.draw.circle(screen, RED, [pos.x,pos.y], 20)
+
+##        for yes in points:
+##            pygame.draw.circle(screen, YELLOW, [yes.x,yes.y], 5)
+            
+        #makes the screen white, and draws the background picture,
+        #then the picture of the pointer ontop of the background pic
+        
+
+        #adding button?
+        pygame.draw.rect(screen, BUTTON, [650,60,100,50])
+
+        #normal stuff
+        #pygame.draw.circle(screen, RED, [45,203], 1)
+        
+        clock.tick(60)
+        pygame.display.flip()
 
 
 try:
@@ -163,11 +303,18 @@ try:
     array = Reading()
 
     calcs = Calculations(array)
-    
 
-    
+    for calc in calcs:
+        display = GUI(calc)
+        sleep(1)
+
+       
     print (array)
     print (calcs)
+
+    pygame.quit()
+
+    
 except KeyboardInterrupt:
    
     GPIO.cleanup()
