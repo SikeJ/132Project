@@ -227,12 +227,12 @@ def Calculations(Array):
         for i in range(resist[5]):
             x += .01
   
-        coords.append([x, y])
+        coords.append([int(x), int(y)])
     return coords
 
 
 
-def GUI(Coords):
+def GUI(point):
     done = False
     while not done:
 
@@ -282,7 +282,7 @@ def GUI(Coords):
         screen.blit(bg, [0,0])
 
 
-        pygame.draw.circle(screen, RED, [pos.x,pos.y], 20)
+        pygame.draw.circle(screen, RED, [int(300+pos.x),int(240+pos.y)], 20)
 
 ##        for yes in points:
 ##            pygame.draw.circle(screen, YELLOW, [yes.x,yes.y], 5)
