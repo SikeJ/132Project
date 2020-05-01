@@ -1,6 +1,6 @@
 import tkinter as tk
 import RPi.GPIO as GPIO
-from pygame import *
+import pygame
 import time
 import busio
 import digitalio
@@ -35,6 +35,9 @@ RED = (255, 0, 255)
 YELLOW = (255, 255, 0)
 
 BUTTON = (165, 234, 45)
+
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 480
 
 #sets starting coords for the lazer pointer
 START_X = (SCREEN_WIDTH - 200) / 2
