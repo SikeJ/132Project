@@ -123,9 +123,36 @@ def Reading():
 
 
 def Calculations(Array):
-    pass
+    x = 0
+    y = 0
+    coords = []
+    for resist in Array:
+        for i in range(resist[0]):
+            x -= .01
+            y += .01
 
+        for i in range(resist[3]):
+            x -= .01
 
+        for i in range(resist[6]):
+            x -= .01
+            y -= .01
+
+        for i in range(resist[1]):
+            y += .01
+
+        for i in range(resist[7]):
+            y -= .01
+
+        for i in range(resist[2]):
+            x += .01
+            y += .01
+
+        for i in range(resist[5]):
+            x += .01
+  
+        coords.append([x, y])
+    return coords
 
 def GUI(Coords):
     pass
@@ -135,8 +162,12 @@ try:
     
     array = Reading()
 
-    print (array)
+    calcs = Calculations(array)
+    
 
+    
+    print (array)
+    print (calcs)
 except KeyboardInterrupt:
    
     GPIO.cleanup()
