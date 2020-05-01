@@ -1,4 +1,4 @@
-import Tkinter as tk
+import tkinter as tk
 import RPi.GPIO as GPIO
 from pygame import *
 import time
@@ -102,7 +102,7 @@ def Reading():
         print('Pin 3: ', topright)
         print('Pin 4: ', midleft)
         print('Pin 5: ', bullseye)
-        print('Pin 6: ', midrighte)
+        print('Pin 6: ', midright)
         print('Pin 7: ', btmleft)
         print('Pin 8: ', btmmid)
         sleep(1)
