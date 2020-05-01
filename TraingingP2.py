@@ -308,7 +308,8 @@ try:
     calcs = Calculations(array)
 
     for calc in calcs:
-        display = GUI(calc)
+        point = Pointer(calc[0], calc[1])
+        display = GUI(point)
         sleep(1)
 
        
