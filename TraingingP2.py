@@ -194,7 +194,7 @@ def Reading():
 # Array diagram
 #  pr1----pr2----pr3
 #  pr4----pr5----pr6   pr5 = bullseye
-#  p7-----pr8-------
+#  pr7-----pr8-------
 
 
 
@@ -218,11 +218,11 @@ def Calculations(Array):
             y -= .01
 
         for i in range(resist[7]):
-            y += .01
+            y -= .01
 
         for i in range(resist[2]):
             x += .01
-            y -= .01
+            y += .01
 
         for i in range(resist[5]):
             x += .01
@@ -236,19 +236,12 @@ def GUI(point):
     done = False
 
     #range checks the provided coords, to not get a value that's outside of the box
-    if point.x < 150:
-        point.x = 150
+   
 
-    elif point.x > 450:
-        point.x = 150
+    print(point.x)
+    print(point.y) 
 
-    if point.y < 120:
-        point.y = 120
 
-    elif point.y > 360:
-        point.y = 360
-
-        
     while not done:
 
         for event in pygame.event.get():
@@ -257,6 +250,18 @@ def GUI(point):
         
         if pos.x == point.x and pos.y == point.y:
             done = True
+
+        if pos.x < 150:
+            pos.x = 150
+
+        elif pos.x > 450:
+            pos.x = 150
+
+        if pos.y < 120:
+            pos.y = 120
+
+        elif pos.y > 360:
+            pos.y = 360
 
         if pos.x - point.x == 0:
             pos.dx = 0
@@ -297,7 +302,7 @@ def GUI(point):
         screen.blit(bg, [0,0])
 
 
-        pygame.draw.circle(screen, RED, [int(300+pos.x),int(240+pos.y)], 20)
+        pygame.draw.circle(screen, RED, [int(pos.x),int(pos.y)], 20)
 
 ##        for yes in points:
 ##            pygame.draw.circle(screen, YELLOW, [yes.x,yes.y], 5)
