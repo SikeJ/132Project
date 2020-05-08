@@ -236,6 +236,8 @@ def GUI(point):
     done = False
 
     #range checks the provided coords, to not get a value that's outside of the box
+    point.x += 300
+    point.y += 240
     if point.x < 150:
         point.x = 150
 
