@@ -205,24 +205,24 @@ def Calculations(Array):
     for resist in Array:
         for i in range(resist[0]):
             x -= .01
-            y += .01
+            y -= .01
 
         for i in range(resist[3]):
             x -= .01
 
         for i in range(resist[6]):
             x -= .01
-            y -= .01
-
-        for i in range(resist[1]):
             y += .01
 
-        for i in range(resist[7]):
+        for i in range(resist[1]):
             y -= .01
+
+        for i in range(resist[7]):
+            y += .01
 
         for i in range(resist[2]):
             x += .01
-            y += .01
+            y -= .01
 
         for i in range(resist[5]):
             x += .01
@@ -234,6 +234,21 @@ def Calculations(Array):
 
 def GUI(point):
     done = False
+
+    #range checks the provided coords, to not get a value that's outside of the box
+    if point.x < 150:
+        point.x = 150
+
+    elif point.x > 450:
+        point.x = 150
+
+    if point.y < 120:
+        point.y = 120
+
+    elif point.y > 360:
+        point.y = 360
+
+        
     while not done:
 
         for event in pygame.event.get():
@@ -301,6 +316,11 @@ def GUI(point):
         pygame.display.flip()
 
 
+
+###############################################
+#main part of program
+##################################################
+        
 try:
     
     array = Reading()
