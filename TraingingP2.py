@@ -218,11 +218,11 @@ def Calculations(Array):
             y -= .01
 
         for i in range(resist[7]):
-            y -= .01
+            y += .01
 
         for i in range(resist[2]):
             x += .01
-            y += .01
+            y -= .01
 
         for i in range(resist[5]):
             x += .01
