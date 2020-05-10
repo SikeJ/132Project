@@ -1,4 +1,4 @@
-import tkinter as tk
+from tkinter import *
 import RPi.GPIO as GPIO
 import pygame
 import time
@@ -108,11 +108,11 @@ class Game(Frame):
 
 #sets the function that are called when the buttons are pressed
 def ShowAgain():
-    print "this button works, but need to implement the showagain feature"
+    print ("this button works, but need to implement the showagain feature")
 
 def Speed(value):
     speed = value
-    print "the speed of the thing should have changed"
+    print("the speed of the thing should have changed")
 
 def leave():
     window.destroy()

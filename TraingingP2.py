@@ -137,7 +137,7 @@ def Reading():
 # Array diagram
 #  pr1----pr2----pr3
 #  pr4----pr5----pr6   pr5 = bullseye
-#  pr7-----pr8-------
+#  pr7----pr8-------
 
 
 
@@ -145,7 +145,7 @@ def Calculations(Array):
     x = 0
     y = 0
     coords = []
-    for resist in Array:
+    for resist in Array:    
         for i in range(resist[0]):
             x -= .01
             y -= .01
@@ -164,12 +164,16 @@ def Calculations(Array):
             y += .01
 
         for i in range(resist[2]):
-            x += .01
+            x += .02
             y -= .01
 
         for i in range(resist[5]):
             x += .01
-  
+
+        if resist[4] == max(resist):
+            print("Yes")
+            x = 0
+            y = 0
         coords.append([int(x), int(y)])
     return coords
 
@@ -183,10 +187,12 @@ def Pygame(point):
     point.y += 240
     
     if point.x < 150:
+        print("Yes")
         point.x = 150
 
     elif point.x > 450:
-        point.x = 150
+        print("No")
+        point.x = 450
 
     if point.y < 120:
             point.y = 120
@@ -195,8 +201,8 @@ def Pygame(point):
             point.y = 360
 
 
-##    print(point.x)
-##    print(point.y) 
+    print(point.x)
+    print(point.y) 
 
 
     while not done:
@@ -257,7 +263,7 @@ def Pygame(point):
         
 
         #adding button?
-        pygame.draw.rect(screen, BUTTON, [650,60,100,50])
+        #pygame.draw.rect(screen, BUTTON, [650,60,100,50])
 
         #normal stuff
         #pygame.draw.circle(screen, RED, [45,203], 1)
