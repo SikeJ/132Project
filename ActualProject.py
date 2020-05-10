@@ -220,9 +220,11 @@ def Calculations(Array):
         
     return coords
 
-#sets a function to load pygame
-def PygameI():
-    #initializes pygame 
+#sets a function to quit pygame
+def PygameQ():
+    pygame.quit()
+    
+def Pygame(point):
     pygame.init()
 
     #sets up screen
@@ -237,11 +239,6 @@ def PygameI():
     #gives the starting point for the 'lazer' everytime
     pos = Pointer(START_X, START_Y)
 
-#sets a function to quit pygame
-def PygameQ():
-    pygame.quit()
-    
-def Pygame(point):
     done = False
 
     #range checks the provided coords, to not get a value that's outside of the box
@@ -315,7 +312,7 @@ pr6 = AnalogIn(mcp, MCP.P5)
 pr7 = AnalogIn(mcp, MCP.P6)
 pr8 = AnalogIn(mcp, MCP.P7)
 
-
+pos = Pointer(START_X, START_Y)
         
 try:
     #starts the Tkinter GUI
@@ -333,9 +330,6 @@ try:
         array = Reading()
         #calculates the coords the lazer will go too
         calcs = Calculations(array)
-
-        #initlizes pygame
-        PygameI()
 
         #moves the lazer to each point that was calculated
         for calc in calcs:
