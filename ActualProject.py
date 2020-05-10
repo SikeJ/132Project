@@ -21,9 +21,10 @@ YELLOW = (255, 255, 0)
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 480
 
-#sets starting coords for the lazer pointer
+#sets starting coords for the lazer pointer and the starting speed
 START_X = (SCREEN_WIDTH - 200) / 2
 START_Y = (SCREEN_HEIGHT) / 2
+speed = 1
 
 class Pointer(object):
 
@@ -67,15 +68,62 @@ class Pointer(object):
         self._dy = dy
 
 
+#sets up the class for the Tkinter GUI
+class Game(Frame):
+
+    def __init__(self, parent):
+        Frame.__init__(self, parent)
+        parent.attributes("-fullscreen", True)
+        self.master = parent
+
+    def setUpGui(self):
+        self.pack(fill = BOTH, expand = 1)
+        
+        #sets up the two images for the Tkinter GUI and all of the buttons
+        img = PhotoImage(file = "TargetPractice.gif")
+        Game.image = Label(self, image = img)
+        Game.image.img = img
+        Game.image.place(x = 0, y = 0)
+        Game.image.pack_propagate(False)
+
+        img = PhotoImage(file = "Buttons.gif")
+        Game.buttons = Label(self, image = img)
+        Game.buttons.img = img
+        Game.buttons.place(x = 650, y = 0)
+        Game.buttons.pack_propagate(False)
+        
+        #button clicked to show the last animation
+        b1 = Button(self.master, text="Show Lazer Again", command = ShowAgain)        
+        b1.place(x = 660, y = 100)
+        
+        #a drop down list to determine the speed of the animation
+        variable = StringVar(window)
+        variable.set(1)
+        w = OptionMenu(window, variable, 0.25, 0.5, 1, 2, 4, command= Speed)        
+        w.place(x = 700, y = 40)
+        
+        #button to quit the program
+        b2 = Button(self.master, text = "Exit the Program", command = leave)
+        b2.place(x = 665, y = 430)
+
+#sets the function that are called when the buttons are pressed
+def ShowAgain():
+    print "this button works, but need to implement the showagain feature"
+
+def Speed(value):
+    speed = value
+    print "the speed of the thing should have changed"
+
+def leave():
+    window.destroy()
+        
+
 #create a function that reads the values at each photoresistor
 def Reading():
 
     lists = []
     done = False
-    while not done:
-
-        #empty list
-        
+    while not done:        
         # These continuously update each Photoresistor object their light value from the array
         # in an infinite loop.
         topleft = pr1.value
@@ -88,7 +136,6 @@ def Reading():
         btmmid = pr8.value
 
         Array = [topleft, topmid, topright, midleft, bullseye, midright, btmleft, btmmid]
-
 
         #waits for a value to go over a threshold and collects each photoresistor data
         #and stores it into an array
@@ -105,6 +152,7 @@ def Reading():
                     btmleft = pr7.value
                     btmmid = pr8.value
 
+                    # Creates the array with all Photoresistor values
                     Array = [topleft, topmid, topright, midleft, bullseye, midright, btmleft, btmmid]
                     lists.append(Array)
                     
@@ -114,8 +162,7 @@ def Reading():
 
                 Array = lists
                 done = True
-                break
-                    
+                break                    
             
         # Just print statements for each for Tyler's testing purposes. 
         print('Pin 1: ', topleft)
@@ -127,9 +174,6 @@ def Reading():
         print('Pin 7: ', btmleft)
         print('Pin 8: ', btmmid)
         sleep(.5)
-
-        # Creates the array with all Photoresistor objects. 
-        
 
     return Array
 
@@ -145,6 +189,8 @@ def Calculations(Array):
     x = 0
     y = 0
     coords = []
+    
+    #takes the photoresistor values and adds them to get the final point
     for resist in Array:
         for i in range(resist[0]):
             x -= .01
@@ -171,10 +217,30 @@ def Calculations(Array):
             x += .01
   
         coords.append([int(x), int(y)])
+        
     return coords
 
+#sets a function to load pygame
+def PygameI():
+    #initializes pygame 
+    pygame.init()
 
+    #sets up screen
+    size = [SCREEN_WIDTH, SCREEN_HEIGHT]
+    screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Aim Trainer")
+    bg = pygame.image.load("TargetPractice.gif")
 
+    #sets the screen refresh rate time
+    clock = pygame.time.Clock()
+
+    #gives the starting point for the 'lazer' everytime
+    pos = Pointer(START_X, START_Y)
+
+#sets a function to quit pygame
+def PygameQ():
+    pygame.quit()
+    
 def Pygame(point):
     done = False
 
@@ -194,10 +260,9 @@ def Pygame(point):
     elif point.y > 360:
             point.y = 360
 
-
-##    print(point.x)
-##    print(point.y) 
-
+    #calculates how much the x and y need to change to get there in a particular time
+    changex = (pos.x - point.x) / (speed * 60)
+    changey = (pos.y - point.y) / (speed * 60)
 
     while not done:
 
@@ -207,84 +272,31 @@ def Pygame(point):
         
         if pos.x == point.x and pos.y == point.y:
             done = True
-        
+            sleep(1)
 
-        if pos.x - point.x == 0:
-            pos.dx = 0
-        
-        elif pos.x - point.x > 0:
-            pos.dx = -1
+        else:
+            pos.x += changex
+            pos.y += changey
 
-            if pos.y - point.y == 0:
-                pos.dy = 0
+            #draws the screen background white, and draws the background of the target
+            screen.fill(WHITE)
+            screen.blit(bg, [0,0])
+
+            #draws the location of the lazer pointer as it is moving
+            pygame.draw.circle(screen, RED, [int(pos.x),int(pos.y)], 20)
             
-            elif pos.y - point.y > 0:
-                pos.dy = -1
-
-            elif pos.y - point.y < 0:
-                pos.dy = 1
-            
-
-        elif pos.x - point.x < 0:
-            pos.dx = 1
-
-            if pos.y - point.y == 0:
-                pos.dy = 0
-
-            if pos.y - point.y > 0:
-                pos.dy = -1
-
-            elif pos.y - point.y < 0:
-                pos.dy = 1
-
-        pos.x += pos.dx
-        pos.y += pos.dy
-
-        
+            #locks the screen FPS at 60 and draws the display on the screen
+            clock.tick(60)
+            pygame.display.flip()
 
 
-        screen.fill(WHITE)
 
-        screen.blit(bg, [0,0])
-
-
-        pygame.draw.circle(screen, RED, [int(pos.x),int(pos.y)], 20)
-
-
-            
-        #makes the screen white, and draws the background picture,
-        #then the picture of the pointer ontop of the background pic
-        
-
-        #adding button?
-        pygame.draw.rect(screen, BUTTON, [650,60,100,50])
-
-        #normal stuff
-        #pygame.draw.circle(screen, RED, [45,203], 1)
-        
-        clock.tick(60)
-        pygame.display.flip()
 
 
 
 ###############################################
 #main part of program
 ##################################################
-
-#initializes pygame 
-pygame.init()
-
-#sets up screen
-size = [SCREEN_WIDTH, SCREEN_HEIGHT]
-screen = pygame.display.set_mode(size)
-pygame.display.set_caption("Aim Trainer")
-bg = pygame.image.load("TargetPractice.gif")
-
-#sets the screen refresh rate time
-clock = pygame.time.Clock()
-
-#gives the starting point for the 'lazer' everytime
-pos = Pointer(START_X, START_Y)
 
 # These just setup inputs and outputs for the Pi to communicate with the MCP3008 chip.
 spi = busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI)
@@ -302,23 +314,40 @@ pr5 = AnalogIn(mcp, MCP.P4)
 pr6 = AnalogIn(mcp, MCP.P5)
 pr7 = AnalogIn(mcp, MCP.P6)
 pr8 = AnalogIn(mcp, MCP.P7)
+
+
         
 try:
-    
-    array = Reading()
+    #starts the Tkinter GUI
+    window = Tk()
+    window.title("AimTrainer")
 
-    calcs = Calculations(array)
+    g = Game(window)
+    g.setUpGui()
+    window.mainloop()
 
-    for calc in calcs:
-        point = Pointer(calc[0], calc[1])
-        display = Pygame(point)
-        sleep(.25)
+    #starts a endless loop checking the values
+    while True:
+        
+        #reads the values and stores them in an array
+        array = Reading()
+        #calculates the coords the lazer will go too
+        calcs = Calculations(array)
 
-       
-    print (array)
-    print (calcs)
+        #initlizes pygame
+        PygameI()
 
-    pygame.quit()
+        #moves the lazer to each point that was calculated
+        for calc in calcs:
+            point = Pointer(calc[0], calc[1])
+            display = Pygame(point)
+            sleep(.25)
+
+           
+        print (array)
+        print (calcs)
+        #quits pygame
+        PygameQ()
 
     
 except KeyboardInterrupt:
