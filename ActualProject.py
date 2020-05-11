@@ -107,22 +107,28 @@ class Game(Frame):
         b2.place(x = 665, y = 430)
 
     def Play(self):
+        array = []
         #reads the values and stores them in an array
-        array = Reading()
-        #calculates the coords the lazer will go too
-        calcs = Calculations(array)
+        array.append(Reading())
 
-        #moves the lazer to each point that was calculated
-        for calc in calcs:
-            point = Pointer(calc[0], calc[1])
-            display = Pygame(point)
-            sleep(.25)
+        if max(array) > 5000:
+            i = 0
+            while i < 3:
+                array.append(Reading())
+            #calculates the coords the lazer will go too
+            calcs = Calculations(array)
 
-           
-        print (array)
-        print (calcs)
-        #quits pygame
-        PygameQ()
+            #moves the lazer to each point that was calculated
+            for calc in calcs:
+                point = Pointer(calc[0], calc[1])
+                display = Pygame(point)
+                sleep(.25)
+
+               
+            print (array)
+            print (calcs)
+            #quits pygame
+            PygameQ()
 
         self.master.after(100,self.Play)
 
@@ -137,8 +143,6 @@ def Speed(value):
     print("the speed of the thing should have changed")
 
 def leave():
-    GPIO.cleanup()
-    sleep(1)
     window.destroy()
         
 
@@ -147,57 +151,30 @@ def Reading():
 
     lists = []
     done = False
-    while not done:        
-        # These continuously update each Photoresistor object their light value from the array
-        # in an infinite loop.
-        topleft = pr1.value
-        topmid = pr2.value
-        topright = pr3.value
-        midleft = pr4.value
-        bullseye = pr5.value
-        midright = pr6.value
-        btmleft = pr7.value
-        btmmid = pr8.value
-
-        Array = [topleft, topmid, topright, midleft, bullseye, midright, btmleft, btmmid]
-
-        #waits for a value to go over a threshold and collects each photoresistor data
-        #and stores it into an array
-        for value in Array:
-            if value >= 5000:
-                i = 0
-                while i < 4:
-                    topleft = pr1.value
-                    topmid = pr2.value
-                    topright = pr3.value
-                    midleft = pr4.value
-                    bullseye = pr5.value
-                    midright = pr6.value
-                    btmleft = pr7.value
-                    btmmid = pr8.value
-
-                    # Creates the array with all Photoresistor values
-                    Array = [topleft, topmid, topright, midleft, bullseye, midright, btmleft, btmmid]
-                    lists.append(Array)
-                    
-                    sleep (.5)
-                    
-                    i += 1
-
-                Array = lists
-                done = True
-                break                    
             
-        # Just print statements for each for Tyler's testing purposes. 
-        print('Pin 1: ', topleft)
-        print('Pin 2: ', topmid)
-        print('Pin 3: ', topright)
-        print('Pin 4: ', midleft)
-        print('Pin 5: ', bullseye)
-        print('Pin 6: ', midright)
-        print('Pin 7: ', btmleft)
-        print('Pin 8: ', btmmid)
-        sleep(.5)
+    # These continuously update each Photoresistor object their light value from the array
+    # in an infinite loop.
+    topleft = pr1.value
+    topmid = pr2.value
+    topright = pr3.value
+    midleft = pr4.value
+    bullseye = pr5.value
+    midright = pr6.value
+    btmleft = pr7.value
+    btmmid = pr8.value
+
+    Array = [topleft, topmid, topright, midleft, bullseye, midright, btmleft, btmmid]        
+        
+    # Just print statements for each for Tyler's testing purposes. 
+    print('Pin 1: ', topleft)
+    print('Pin 2: ', topmid)
+    print('Pin 3: ', topright)
+    print('Pin 4: ', midleft)
+    print('Pin 5: ', bullseye)
+    print('Pin 6: ', midright)
+    print('Pin 7: ', btmleft)
+    print('Pin 8: ', btmmid)
+    sleep(.5)
 
     return Array
 
