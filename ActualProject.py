@@ -106,6 +106,28 @@ class Game(Frame):
         b2 = Button(self.master, text = "Exit the Program", command = leave)
         b2.place(x = 665, y = 430)
 
+    def Play(self):
+        #reads the values and stores them in an array
+        array = Reading()
+        #calculates the coords the lazer will go too
+        calcs = Calculations(array)
+
+        #moves the lazer to each point that was calculated
+        for calc in calcs:
+            point = Pointer(calc[0], calc[1])
+            display = Pygame(point)
+            sleep(.25)
+
+           
+        print (array)
+        print (calcs)
+        #quits pygame
+        PygameQ()
+
+        self.master.after(100,self.Play)
+
+        
+
 #sets the function that are called when the buttons are pressed
 def ShowAgain():
     print ("this button works, but need to implement the showagain feature")
@@ -115,6 +137,8 @@ def Speed(value):
     print("the speed of the thing should have changed")
 
 def leave():
+    GPIO.cleanup()
+    sleep(1)
     window.destroy()
         
 
@@ -210,11 +234,15 @@ def Calculations(Array):
             y += .01
 
         for i in range(resist[2]):
-            x += .01
+            x += .02
             y -= .01
 
         for i in range(resist[5]):
             x += .01
+
+        if resist[4] == max(resist):
+            x = 0
+            y = 0
   
         coords.append([int(x), int(y)])
         
@@ -249,7 +277,7 @@ def Pygame(point):
         point.x = 150
 
     elif point.x > 450:
-        point.x = 150
+        point.x = 450
 
     if point.y < 120:
             point.y = 120
@@ -314,40 +342,15 @@ pr8 = AnalogIn(mcp, MCP.P7)
 
 pos = Pointer(START_X, START_Y)
         
-try:
-    #starts the Tkinter GUI
-    window = Tk()
-    window.title("AimTrainer")
+#starts the Tkinter GUI
+window = Tk()
+window.title("AimTrainer")
 
-    g = Game(window)
-    g.setUpGui()
-    window.mainloop()
+g = Game(window)
+g.setUpGui()
+window.mainloop()
 
-    #starts a endless loop checking the values
-    while True:
-        
-        #reads the values and stores them in an array
-        array = Reading()
-        #calculates the coords the lazer will go too
-        calcs = Calculations(array)
-
-        #moves the lazer to each point that was calculated
-        for calc in calcs:
-            point = Pointer(calc[0], calc[1])
-            display = Pygame(point)
-            sleep(.25)
-
-           
-        print (array)
-        print (calcs)
-        #quits pygame
-        PygameQ()
-
-    
-except KeyboardInterrupt:
-   
-    GPIO.cleanup()
-
+#starts a endless loop checking the values
 
 
 
