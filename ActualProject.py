@@ -349,7 +349,7 @@ window.title("AimTrainer")
 g = Game(window)
 g.setUpGui()
 window.mainloop()
-
+g.Play()
 #starts a endless loop checking the values
 
 
