@@ -1,0 +1,6 @@
+THINGS TO IMPLEMENT:
+
+help button
+show laser button
+changing backgrounds with what's happening
+show the suggestions
