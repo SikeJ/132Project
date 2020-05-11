@@ -246,9 +246,6 @@ def Pygame(point):
         pos.x += pos.dx
         pos.y += pos.dy
 
-        
-
-
         screen.fill(WHITE)
 
         screen.blit(bg, [0,0])

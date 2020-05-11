@@ -107,14 +107,17 @@ class Game(Frame):
         b2.place(x = 665, y = 430)
 
     def Play(self):
+        print("Something")
         array = []
         #reads the values and stores them in an array
         array.append(Reading())
 
-        if max(array) > 5000:
+        if max(array[0]) > 5000:
             i = 0
+            print("Before")
             while i < 3:
                 array.append(Reading())
+                i += 1
             #calculates the coords the lazer will go too
             calcs = Calculations(array)
 
@@ -130,7 +133,7 @@ class Game(Frame):
             #quits pygame
             PygameQ()
 
-        self.master.after(100,self.Play)
+        self.master.after(1000,self.Play)
 
         
 
@@ -190,6 +193,7 @@ def Calculations(Array):
     x = 0
     y = 0
     coords = []
+    print("Something2")
     
     #takes the photoresistor values and adds them to get the final point
     for resist in Array:
@@ -242,7 +246,6 @@ def Pygame(point):
     clock = pygame.time.Clock()
 
     #gives the starting point for the 'lazer' everytime
-    pos = Pointer(START_X, START_Y)
 
     done = False
 
@@ -274,22 +277,49 @@ def Pygame(point):
         
         if pos.x == point.x and pos.y == point.y:
             done = True
-            sleep(1)
+        
 
-        else:
-            pos.x += changex
-            pos.y += changey
+        if pos.x - point.x == 0:
+            pos.dx = 0
+        
+        elif pos.x - point.x > 0:
+            pos.dx = -1 * speed
 
-            #draws the screen background white, and draws the background of the target
-            screen.fill(WHITE)
-            screen.blit(bg, [0,0])
-
-            #draws the location of the lazer pointer as it is moving
-            pygame.draw.circle(screen, RED, [int(pos.x),int(pos.y)], 20)
+            if pos.y - point.y == 0:
+                pos.dy = 0
             
-            #locks the screen FPS at 60 and draws the display on the screen
-            clock.tick(60)
-            pygame.display.flip()
+            elif pos.y - point.y > 0:
+                pos.dy = -1 * speed
+
+            elif pos.y - point.y < 0:
+                pos.dy = 1 * speed
+            
+
+        elif pos.x - point.x < 0:
+            pos.dx = 1 * speed
+
+            if pos.y - point.y == 0:
+                pos.dy = 0
+
+            if pos.y - point.y > 0:
+                pos.dy = -1 * speed
+
+            elif pos.y - point.y < 0:
+                pos.dy = 1 * speed
+
+        pos.x += pos.dx
+        pos.y += pos.dy
+
+        #draws the screen background white, and draws the background of the target
+        screen.fill(WHITE)
+        screen.blit(bg, [0,0])
+
+        #draws the location of the lazer pointer as it is moving
+        pygame.draw.circle(screen, RED, [int(pos.x),int(pos.y)], 20)
+            
+        #locks the screen FPS at 60 and draws the display on the screen
+        clock.tick(60)
+        pygame.display.flip()
 
 
 
@@ -325,8 +355,8 @@ window.title("AimTrainer")
 
 g = Game(window)
 g.setUpGui()
-window.mainloop()
 g.Play()
+window.mainloop()
 #starts a endless loop checking the values
 
 
