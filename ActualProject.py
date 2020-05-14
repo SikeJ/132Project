@@ -21,10 +21,12 @@ YELLOW = (255, 255, 0)
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 480
 
-#sets starting coords for the lazer pointer and the starting speed
+#sets the defaults for the starting pos, speed, and number of data points
 START_X = (SCREEN_WIDTH - 200) / 2
 START_Y = (SCREEN_HEIGHT) / 2
 speed = 1
+datapoints = 4
+playagain = []
 
 class Pointer(object):
 
@@ -95,6 +97,20 @@ class Game(Frame):
         #button clicked to show the last animation
         b1 = Button(self.master, text="Show Lazer Again", command = ShowAgain)        
         b1.place(x = 660, y = 100)
+
+        #button that shows how to use the trainer
+        b2 = Button(self.master, text="How to use", command = Help)
+        b2.place(x = 680, y = 300)
+
+        #button that shows the total Pistol Chart
+        b3 = Button(self.master, text = "Show Pistol Chart", command = Pistol)
+        b3.place(x = 665, y = 250)
+
+        #a dropdown list to determine how many data points are going to be collected
+        dropdown2 = StringVar(window)
+        dropdown2.set(4)
+        w2 = OptionMenu(window, dropdown2, 4, 5, 6, 7, 8, 9, 10, command = change)
+        w2.place(x = 700, y = 170)
         
         #a drop down list to determine the speed of the animation
         variable = StringVar(window)
@@ -106,6 +122,13 @@ class Game(Frame):
         b2 = Button(self.master, text = "Exit the Program", command = leave)
         b2.place(x = 665, y = 430)
 
+    def setPicture(self, background):
+        
+        pictures = background + ".gif"
+        Game.img = PhotoImage(file = pictures)
+        Game.image.config(image = Game.img)
+        Game.image.image = Game.img
+
     def Play(self):
         print("Something")
         array = []
@@ -115,11 +138,12 @@ class Game(Frame):
         if max(array[0]) > 5000:
             i = 0
             print("Before")
-            while i < 3:
+            while (i < len(datapoints) -1):
                 array.append(Reading())
                 i += 1
             #calculates the coords the lazer will go too
             calcs = Calculations(array)
+            playagain = calcs
 
             #moves the lazer to each point that was calculated
             for calc in calcs:
@@ -135,15 +159,35 @@ class Game(Frame):
 
         self.master.after(1000,self.Play)
 
-        
+#functions that set the background picture to the correct picture when buttons are pressed
+def Help():
+    g.setPicture("PistolChart")
+
+def Pistol():
+    g.setPicture("PistolChart2")
+
+
 
 #sets the function that are called when the buttons are pressed
 def ShowAgain():
-    print ("this button works, but need to implement the showagain feature")
+    for calc in playagain:
+        point = Pointer(calc[0], calc[1])
+        display = Pygame(point)
+        sleep(.25)
+
+    print (array)
+    print (calcs)
+
+    PygameQ()
+        
+    #print ("this button works, but need to implement the showagain feature")
 
 def Speed(value):
     speed = value
-    print("the speed of the thing should have changed")
+    #print("the speed of the thing should have changed")
+
+def DataPoints(value):
+    datapoints = value
 
 def leave():
     window.destroy()
@@ -177,7 +221,7 @@ def Reading():
     print('Pin 6: ', midright)
     print('Pin 7: ', btmleft)
     print('Pin 8: ', btmmid)
-    sleep(.5)
+    sleep(.25)
 
     return Array
 
@@ -193,7 +237,7 @@ def Calculations(Array):
     x = 0
     y = 0
     coords = []
-    print("Something2")
+    #print("Something2")
     
     #takes the photoresistor values and adds them to get the final point
     for resist in Array:
@@ -283,29 +327,29 @@ def Pygame(point):
             pos.dx = 0
         
         elif pos.x - point.x > 0:
-            pos.dx = -1 * speed
+            pos.dx = -1 
 
             if pos.y - point.y == 0:
                 pos.dy = 0
             
             elif pos.y - point.y > 0:
-                pos.dy = -1 * speed
+                pos.dy = -1 
 
             elif pos.y - point.y < 0:
-                pos.dy = 1 * speed
+                pos.dy = 1 
             
 
         elif pos.x - point.x < 0:
-            pos.dx = 1 * speed
+            pos.dx = 1 
 
             if pos.y - point.y == 0:
                 pos.dy = 0
 
             if pos.y - point.y > 0:
-                pos.dy = -1 * speed
+                pos.dy = -1
 
             elif pos.y - point.y < 0:
-                pos.dy = 1 * speed
+                pos.dy = 1
 
         pos.x += pos.dx
         pos.y += pos.dy
@@ -318,7 +362,7 @@ def Pygame(point):
         pygame.draw.circle(screen, RED, [int(pos.x),int(pos.y)], 20)
             
         #locks the screen FPS at 60 and draws the display on the screen
-        clock.tick(60)
+        clock.tick(60 * speed)
         pygame.display.flip()
 
 
@@ -355,6 +399,7 @@ window.title("AimTrainer")
 
 g = Game(window)
 g.setUpGui()
+g.setPicture("TargetPractice")
 g.Play()
 window.mainloop()
 #starts a endless loop checking the values

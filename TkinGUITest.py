@@ -34,8 +34,13 @@ class Game(Frame):
         
         b1 = Button(self.master, text="Show Lazer Again", command = testing)
         
-        b1.place(x = 660, y = 100)
-        
+        b1.place(x = 660, y = 90)
+
+        b2 = Button(self.master, text="How to use", command = helping)
+        b2.place(x = 680, y = 300)
+
+        b3 = Button(self.master, text = "Show Pistol Chart", command = Pistol)
+        b3.place(x = 665, y = 250)
 
         variable = StringVar(window)
         variable.set(1)
@@ -44,16 +49,21 @@ class Game(Frame):
         
         w.place(x = 700, y = 40)
 
+        dropdown2 = StringVar(window)
+        dropdown2.set(4)
+        w2 = OptionMenu(window, dropdown2, 4, 5, 6, 7, 8, 9, 10, command = change)
+        w2.place(x = 700, y = 170)
+
         b2 = Button(self.master, text = "Exit the Program", command = leave)
         b2.place(x = 665, y = 430)
 
         
 
 
-    def setPicture(self):
+    def setPicture(self, background):
         
-
-        Game.img = PhotoImage(file = "TargetPractice.gif")
+        pictures = background + ".gif"
+        Game.img = PhotoImage(file = pictures)
         Game.image.config(image = Game.img)
         Game.image.image = Game.img
 
@@ -74,6 +84,15 @@ def again(test):
 def leave():
     window.destroy()
 
+def helping():
+    g.setPicture("PistolChart")
+
+def change(check):
+    print check
+
+def Pistol():
+    g.setPicture("PistolChart2")
+
 WIDTH = 800
 HEIGHT = 480
 window = Tk()
@@ -92,7 +111,7 @@ window.title("Aim Trainer")
 g = Game(window)
 
 g.setUpGui()
-g.setPicture()
+g.setPicture("TargetPractice")
 g.Play()
 
 window.mainloop()
