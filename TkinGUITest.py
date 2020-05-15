@@ -111,7 +111,7 @@ window.title("Aim Trainer")
 g = Game(window)
 
 g.setUpGui()
-g.setPicture("TargetPractice")
+g.setPicture("Shoot")
 g.Play()
 
 window.mainloop()
