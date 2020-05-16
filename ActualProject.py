@@ -81,7 +81,7 @@ class Game(Frame):
     def setUpGui(self):
         self.pack(fill = BOTH, expand = 1)
         
-        #sets up the two images for the Tkinter GUI and all of the buttons
+        # sets up the two images for the Tkinter GUI and all of the buttons
         img = PhotoImage(file = "TargetPractice.gif")
         Game.image = Label(self, image = img)
         Game.image.img = img
@@ -94,31 +94,35 @@ class Game(Frame):
         Game.buttons.place(x = 650, y = 0)
         Game.buttons.pack_propagate(False)
         
-        #button clicked to show the last animation
-        b1 = Button(self.master, text="Show Lazer Again", command = ShowAgain)        
+        # button clicked to show the last animation
+        b1 = Button(self.master, text="Show Laser Again", command = ShowAgain)        
         b1.place(x = 660, y = 100)
 
-        #button that shows how to use the trainer
-        b2 = Button(self.master, text="How to use", command = Help)
+        # button that shows how to hold a pistol
+        b2 = Button(self.master, text="How to Hold", command = Help)
         b2.place(x = 680, y = 300)
 
-        #button that shows the total Pistol Chart
+        # button that shows the total Pistol Chart
         b3 = Button(self.master, text = "Show Pistol Chart", command = Pistol)
         b3.place(x = 665, y = 250)
 
-        #a dropdown list to determine how many data points are going to be collected
+        # button that shows the proper stance
+        b4 = Button(self.master, text = "How to Stand", command = Stance)
+        b4.place(x = 680, y = 350)
+
+        # a dropdown list to determine how many data points are going to be collected
         dropdown2 = StringVar(window)
         dropdown2.set(4)
         w2 = OptionMenu(window, dropdown2, 4, 5, 6, 7, 8, 9, 10, command = change)
         w2.place(x = 700, y = 170)
         
-        #a drop down list to determine the speed of the animation
+        # a drop down list to determine the speed of the animation
         variable = StringVar(window)
         variable.set(1)
         w = OptionMenu(window, variable, 0.25, 0.5, 1, 2, 4, command= Speed)        
         w.place(x = 700, y = 40)
         
-        #button to quit the program
+        # button to quit the program
         b2 = Button(self.master, text = "Exit the Program", command = leave)
         b2.place(x = 665, y = 430)
 
@@ -145,7 +149,7 @@ class Game(Frame):
             calcs = Calculations(array)
             playagain = calcs
 
-            #moves the lazer to each point that was calculated
+            #moves the laser to each point that was calculated
             for calc in calcs:
                 point = Pointer(calc[0], calc[1])
                 display = Pygame(point)
@@ -161,10 +165,21 @@ class Game(Frame):
 
 #functions that set the background picture to the correct picture when buttons are pressed
 def Help():
-    g.setPicture("PistolChart")
+    g.setPicture("grip")
 
-def Pistol():
+def Stance():
+    g.setPicture("standing")
+
+
+def Pistol(point):
     g.setPicture("PistolChart2")
+    r = 5
+    create_oval(point.x - r, point.y - r,\
+                                 point.x + r, point.y + r,\
+                                 outline = "magenta", fill = "magenta")
+
+
+    
 
 
 
@@ -195,7 +210,7 @@ def leave():
 
 #create a function that reads the values at each photoresistor
 def Reading():
-
+    
     lists = []
     done = False
             
@@ -241,6 +256,7 @@ def Calculations(Array):
     
     #takes the photoresistor values and adds them to get the final point
     for resist in Array:
+        g.setPicture("loading")
         for i in range(resist[0]):
             x -= .01
             y -= .01
@@ -399,7 +415,7 @@ window.title("AimTrainer")
 
 g = Game(window)
 g.setUpGui()
-g.setPicture("TargetPractice")
+g.setPicture("shoot")
 g.Play()
 window.mainloop()
 #starts a endless loop checking the values
