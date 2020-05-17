@@ -24,6 +24,7 @@ SCREEN_HEIGHT = 480
 #sets the defaults for the starting pos, speed, and number of data points
 START_X = (SCREEN_WIDTH - 200) / 2
 START_Y = (SCREEN_HEIGHT) / 2
+global speed
 speed = 1
 datapoints = 4
 playagain = []
@@ -109,7 +110,7 @@ class Game(Frame):
         #a dropdown list to determine how many data points are going to be collected
         dropdown2 = StringVar(window)
         dropdown2.set(4)
-        w2 = OptionMenu(window, dropdown2, 4, 5, 6, 7, 8, 9, 10, command = change)
+        w2 = OptionMenu(window, dropdown2, 4, 5, 6, 7, 8, 9, 10, command = DataPoints)
         w2.place(x = 700, y = 170)
         
         #a drop down list to determine the speed of the animation
@@ -138,11 +139,12 @@ class Game(Frame):
         if max(array[0]) > 5000:
             i = 0
             print("Before")
-            while (i < len(datapoints) -1):
+            while (i < (datapoints)):
                 array.append(Reading())
                 i += 1
             #calculates the coords the lazer will go too
             calcs = Calculations(array)
+            global playagain
             playagain = calcs
 
             #moves the lazer to each point that was calculated
@@ -170,19 +172,20 @@ def Pistol():
 
 #sets the function that are called when the buttons are pressed
 def ShowAgain():
+    global array
+    global playagain
+    print("Show Again")
     for calc in playagain:
         point = Pointer(calc[0], calc[1])
         display = Pygame(point)
         sleep(.25)
-
-    print (array)
-    print (calcs)
-
+    print(playagain)
     PygameQ()
         
     #print ("this button works, but need to implement the showagain feature")
 
 def Speed(value):
+    global speed
     speed = value
     #print("the speed of the thing should have changed")
 
@@ -362,7 +365,8 @@ def Pygame(point):
         pygame.draw.circle(screen, RED, [int(pos.x),int(pos.y)], 20)
             
         #locks the screen FPS at 60 and draws the display on the screen
-        clock.tick(60 * speed)
+        global speed
+        clock.tick(20 * speed)
         pygame.display.flip()
 
 
