@@ -24,7 +24,6 @@ SCREEN_HEIGHT = 480
 #sets the defaults for the starting pos, speed, and number of data points
 START_X = (SCREEN_WIDTH - 200) / 2
 START_Y = (SCREEN_HEIGHT) / 2
-global speed
 speed = 1
 datapoints = 4
 playagain = []
@@ -78,6 +77,7 @@ class Game(Frame):
         Frame.__init__(self, parent)
         parent.attributes("-fullscreen", True)
         self.master = parent
+        self.canvas = parent
 
     def setUpGui(self):
         self.pack(fill = BOTH, expand = 1)
@@ -104,7 +104,7 @@ class Game(Frame):
         b2.place(x = 680, y = 300)
 
         # button that shows the total Pistol Chart
-        b3 = Button(self.master, text = "Show Pistol Chart", command = Pistol)
+        b3 = Button(self.master, text = "Show Pistol Chart", command = PistolChart)
         b3.place(x = 665, y = 250)
 
         # button that shows the proper stance
@@ -135,7 +135,6 @@ class Game(Frame):
         Game.image.image = Game.img
 
     def Play(self):
-        print("Something")
         array = []
         #reads the values and stores them in an array
         array.append(Reading())
@@ -161,7 +160,9 @@ class Game(Frame):
             print (array)
             print (calcs)
             #quits pygame
+            Pistol(calcs[len(calcs)-1])
             PygameQ()
+            
 
         self.master.after(1000,self.Play)
 
@@ -176,11 +177,12 @@ def Stance():
 def Pistol(point):
     g.setPicture("PistolChart2")
     r = 5
-    create_oval(point.x - r, point.y - r,\
+    g.canvas.create_oval(point.x - r, point.y - r,\
                                  point.x + r, point.y + r,\
                                  outline = "magenta", fill = "magenta")
 
-
+def PistolChart():
+    g.setPicture("PistolChart2")
     
 
 
@@ -199,6 +201,7 @@ def ShowAgain():
     #print ("this button works, but need to implement the showagain feature")
 
 def Speed(value):
+    global speed
     speed = value
     #print("the speed of the thing should have changed")
 
@@ -307,7 +310,7 @@ def Pygame(point):
     clock = pygame.time.Clock()
 
     #gives the starting point for the 'lazer' everytime
-    pos = Pointer(START_X, START_Y)
+    
 
     done = False
 
@@ -380,8 +383,6 @@ def Pygame(point):
         pygame.draw.circle(screen, RED, [int(pos.x),int(pos.y)], 20)
             
         #locks the screen FPS at 60 and draws the display on the screen
-        global speed
-        print (speed)
         clock.tick(20 * speed)
         pygame.display.flip()
 
@@ -413,6 +414,7 @@ pr8 = AnalogIn(mcp, MCP.P7)
 
         
 #starts the Tkinter GUI
+pos = Pointer(START_X, START_Y)
 window = Tk()
 window.title("AimTrainer")
 
