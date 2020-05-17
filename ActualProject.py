@@ -187,7 +187,6 @@ def Pistol(point):
 
 #sets the function that are called when the buttons are pressed
 def ShowAgain():
-    global array
     global playagain
     print("Show Again")
     for calc in playagain:
@@ -200,7 +199,6 @@ def ShowAgain():
     #print ("this button works, but need to implement the showagain feature")
 
 def Speed(value):
-    global speed
     speed = value
     #print("the speed of the thing should have changed")
 
@@ -309,6 +307,7 @@ def Pygame(point):
     clock = pygame.time.Clock()
 
     #gives the starting point for the 'lazer' everytime
+    pos = Pointer(START_X, START_Y)
 
     done = False
 
@@ -382,6 +381,7 @@ def Pygame(point):
             
         #locks the screen FPS at 60 and draws the display on the screen
         global speed
+        print (speed)
         clock.tick(20 * speed)
         pygame.display.flip()
 
@@ -411,7 +411,6 @@ pr6 = AnalogIn(mcp, MCP.P5)
 pr7 = AnalogIn(mcp, MCP.P6)
 pr8 = AnalogIn(mcp, MCP.P7)
 
-pos = Pointer(START_X, START_Y)
         
 #starts the Tkinter GUI
 window = Tk()
