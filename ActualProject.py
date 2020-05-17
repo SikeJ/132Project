@@ -77,7 +77,7 @@ class Game(Frame):
         Frame.__init__(self, parent)
         parent.attributes("-fullscreen", True)
         self.master = parent
-        self.canvas = parent
+        
 
     def setUpGui(self):
         self.pack(fill = BOTH, expand = 1)
@@ -141,7 +141,7 @@ class Game(Frame):
 
         if max(array[0]) > 5000:
             i = 0
-            print("Before")
+            g.setPicture("loading")
             while (i < (datapoints)):
                 array.append(Reading())
                 i += 1
@@ -177,9 +177,10 @@ def Stance():
 def Pistol(point):
     g.setPicture("PistolChart2")
     r = 5
-    g.canvas.create_oval(point.x - r, point.y - r,\
-                                 point.x + r, point.y + r,\
-                                 outline = "magenta", fill = "magenta")
+    Game.img = PhotoImage(file = "Laser.gif")
+    Game.laser = Label(self, image = img)
+    Game.laser.place(x = (300 + point[0]), y = (240 + point[1]))
+    
 
 def PistolChart():
     g.setPicture("PistolChart2")
@@ -190,12 +191,12 @@ def PistolChart():
 #sets the function that are called when the buttons are pressed
 def ShowAgain():
     global playagain
-    print("Show Again")
+    #print("Show Again")
     for calc in playagain:
         point = Pointer(calc[0], calc[1])
         display = Pygame(point)
         sleep(.25)
-    print(playagain)
+    #print(playagain)
     PygameQ()
         
     #print ("this button works, but need to implement the showagain feature")
@@ -232,14 +233,14 @@ def Reading():
     Array = [topleft, topmid, topright, midleft, bullseye, midright, btmleft, btmmid]        
         
     # Just print statements for each for Tyler's testing purposes. 
-    print('Pin 1: ', topleft)
-    print('Pin 2: ', topmid)
-    print('Pin 3: ', topright)
-    print('Pin 4: ', midleft)
-    print('Pin 5: ', bullseye)
-    print('Pin 6: ', midright)
-    print('Pin 7: ', btmleft)
-    print('Pin 8: ', btmmid)
+##    print('Pin 1: ', topleft)
+##    print('Pin 2: ', topmid)
+##    print('Pin 3: ', topright)
+##    print('Pin 4: ', midleft)
+##    print('Pin 5: ', bullseye)
+##    print('Pin 6: ', midright)
+##    print('Pin 7: ', btmleft)
+##    print('Pin 8: ', btmmid)
     sleep(.25)
 
     return Array
@@ -260,7 +261,7 @@ def Calculations(Array):
     
     #takes the photoresistor values and adds them to get the final point
     for resist in Array:
-        g.setPicture("loading")
+        
         for i in range(resist[0]):
             x -= .01
             y -= .01
