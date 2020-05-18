@@ -99,17 +99,21 @@ class Game(Frame):
         b1 = Button(self.master, text="Show Laser Again", command = ShowAgain)        
         b1.place(x = 660, y = 100)
 
+        #adds a button that shows how to be safe, and what to do to use this program
+        b5 = Button(self.master, text = "How to:", command = Safety)
+        b5.place(x = 680, y = 300
+
         # button that shows how to hold a pistol
-        b2 = Button(self.master, text="How to Hold", command = Help)
-        b2.place(x = 680, y = 300)
+        b2 = Button(self.master, text="Hold", command = Help)
+        b2.place(x = 680, y = 350)
 
         # button that shows the total Pistol Chart
         b3 = Button(self.master, text = "Show Pistol Chart", command = PistolChart)
         b3.place(x = 665, y = 250)
 
         # button that shows the proper stance
-        b4 = Button(self.master, text = "How to Stand", command = Stance)
-        b4.place(x = 680, y = 350)
+        b4 = Button(self.master, text = "Stand", command = Stance)
+        b4.place(x = 680, y = 400)
 
         # a dropdown list to determine how many data points are going to be collected
         dropdown2 = StringVar(window)
@@ -125,7 +129,7 @@ class Game(Frame):
         
         # button to quit the program
         b2 = Button(self.master, text = "Exit the Program", command = leave)
-        b2.place(x = 665, y = 430)
+        b2.place(x = 660, y = 430)
 
     def setPicture(self, background):
         
@@ -184,6 +188,9 @@ def Pistol(point):
 
 def PistolChart():
     g.setPicture("PistolChart2")
+
+def Safety():
+    g.setPicture("Safety")
     
 
 
